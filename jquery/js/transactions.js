@@ -102,6 +102,13 @@ var transactions = (function(){
 	//appends the fetched transactions in UI
 	var setTransactionsUI = function(){
 		$(".transactions").empty();
+    //dope style
+    $(".transactions").append("<li class='transaction'>"
+            + "<div class='date'><b>date</b></div>"
+            + "<div class='category'><b>category</b></div>"
+            + "<div class='text'><b>description</b></div>"
+            + "<div class='amount'><b>amount</b></div>"
+            + "</li>");
 		for(var i = 0; i < transactions.length; i++){
 			var d = formatDate(new Date(transactions[i].trx_time));
 			$(".transactions").append("<li class='transaction'>"
@@ -146,4 +153,3 @@ var transactions = (function(){
 		init : _init
 	}
 })();
-
