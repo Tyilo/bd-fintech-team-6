@@ -106,7 +106,7 @@ var transactions = (function(){
 			var d = formatDate(new Date(transactions[i].trx_time));
 			$(".transactions").append("<li class='transaction'>"
 							+ "<div class='date'>" + d + "</div>"
-							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trxcategory + "</div>"
+							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trx_category + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
 							+ "<div class='amount'>" + transactions[i].trx_ammount + "</div>"
 							+ "</li>");
