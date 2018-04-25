@@ -2,6 +2,18 @@ $(document).ready(function() {
     transactions.init();
 });
 
+function pad(s, n) {
+	s = '' + s;
+	while (s.length < n) {
+		s = '0' + s;
+	}
+	return s;
+}
+
+function formatDate(dt) {
+	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth(), 2) + '.' + pad(dt.getFullYear(), 4);
+}
+
 var transactions = (function(){
 	"use strict";
 
@@ -83,8 +95,9 @@ var transactions = (function(){
 	var setTransactionsUI = function(){
 		$(".transactions").empty();
 		for(var i = 0; i < transactions.length; i++){
+			var d = formatDate(new Date(transactions[i].trx_time));
 			$(".transactions").append("<li class='transaction'>"
-							+ "<div class='date'>" + transactions[i].trx_time + "</div>"
+							+ "<div class='date'>" + d + "</div>"
 							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trxcategory + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
 							+ "<div class='amount'>" + transactions[i].trx_ammount + "</div>"
