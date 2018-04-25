@@ -77,10 +77,14 @@ var transactions = (function(){
 	};
 
 	//selects an account, empties transactions list and fetches first page of transactions for selected account
+	var urlFlag = false;
 	var selectAccount = function(accNbr){
-		var url = location.href.substring(0, location.href.lastIndexOf('/')) + '/transactions.html';
-		url += '?account=' + accNbr;
-		history.pushState(null, 'aaa', url);
+		if(urlFlag) {
+		  var url = location.href.substring(0, location.href.lastIndexOf('/')) + '/transactions.html';
+		  url += '?account=' + accNbr;
+		  history.pushState(null, 'aaa', url);
+		} else urlFlag = true;
+
 		currentPage = 1;
 		selectedAccount = getAccountById(accNbr);
 		transactions = [];
