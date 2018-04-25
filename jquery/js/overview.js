@@ -57,7 +57,7 @@ var overview = (function(){
 	var setAccountData = function(){
 		accountNames = [];
 		accountBalances = [];
-		for(var i = 0; i < accounts.length - 1; i++){
+		for(var i = 0; i < accounts.length; i++){
 			accountNames.push(accounts[i].name);
 			accountBalances.push(accounts[i].balance);
 		}
@@ -84,6 +84,7 @@ var overview = (function(){
 	        },
 	        yAxis: {
 				title: ''
+        reversed: 'false'
 	        },
 	        tooltip: {
 	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
