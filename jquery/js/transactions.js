@@ -11,7 +11,8 @@ function pad(s, n) {
 }
 
 function formatDate(dt) {
-	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth(), 2) + '.' + pad(dt.getFullYear(), 4);
+	console.log(dt);
+	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth() + 1, 2) + '.' + pad(dt.getFullYear(), 4);
 }
 
 function fixNumber(n) {
