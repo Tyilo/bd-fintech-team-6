@@ -29,6 +29,31 @@ var transactions = (function(){
 			selectAccount(selectedAccount.account_nbr);
 			bindListeners();
 		});
+
+		function isScrolledIntoView(elem)
+		{
+			var docViewTop = $(window).scrollTop();
+			var docViewBottom = docViewTop + $(window).height();
+
+			var elemTop = $(elem).offset().top;
+			var elemBottom = elemTop + $(elem).height();
+
+			return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+		}
+
+		var lastScroll = -1;
+		$(document.body).scroll(function(e) {
+			if (isScrolledIntoView($('.get-more'))) {
+				if (new Date() - lastScroll >= 500) {
+					getMoreTransactions(function() {
+						lastScroll = +new Date();
+					});
+				}
+			}
+		});
+
+		document.body.onscroll = function(ev) {
+		};
 	};
 
 	//binds click listeners for buttons and stuff
@@ -46,11 +71,13 @@ var transactions = (function(){
 	};
 
 	//fetch transactions and add to list in UI
-	var updateTransactions = function(accNbr, page){
+	var updateTransactions = function(accNbr, page, callback){
 		service.fetchTransactionsByPage(accNbr, page, ordering, function(response){
 			var newTransactions = response.transactions;
 			transactions = transactions.concat(newTransactions);
 			setTransactionsUI();
+			if (callback)
+				callback();
 		});
 	};
 
@@ -121,9 +148,9 @@ var transactions = (function(){
 	};
 
 	//fetches next page of transactions
-	var getMoreTransactions = function(){
+	var getMoreTransactions = function(callback){
 		currentPage++;
-		updateTransactions(selectedAccount.account_nbr, currentPage);
+		updateTransactions(selectedAccount.account_nbr, currentPage, callback);
 	};
 
 	//returns an account object with given account number
