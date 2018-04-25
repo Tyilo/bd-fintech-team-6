@@ -21,8 +21,8 @@ function fixNumber(n) {
 }
 
 function colorAmount(s) {
-	var color = s[0] === '-'? 'red': 'green';
-	return '<span color="' + color + '">' + s + '</span>';
+	var color = s[0] === '-'? 'red; font-weight: bold;': 'green';
+	return '<span style="color: ' + color + ';">' + s + '</span>';
 }
 
 var service = (function(){
