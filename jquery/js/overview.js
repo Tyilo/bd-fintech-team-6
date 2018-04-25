@@ -65,7 +65,7 @@ var overview = (function(){
 			$(".amount-stats-transactions").append("<table class='transactions'></table>");
 			$(".transactions").append('<tr><th>Dato</th><th>Beskrivelse</th><th>Beløb</th></tr>');
 			for(var i = 0; i < transactions.length; i++){
-				$(".transactions").append("<tr><td>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td>" + transactions[i].trx_description + "</td><td>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
+				$(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
 			}
 		});
 	};
