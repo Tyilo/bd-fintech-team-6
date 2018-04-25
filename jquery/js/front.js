@@ -2,10 +2,6 @@ $(document).ready(function() {
     front.init();
 });
 
-function fixNumber(n) {
-	return (n + '').replace(/\./g, ',');
-}
-
 var front = (function(){
 	"use strict";
 
@@ -22,10 +18,10 @@ var front = (function(){
 			accounts = response.accounts;
 			for(var i = 0; i < accounts.length; i++){
 				$(".accounts").append("<li class='account'>"
-							+ "<a href='transactions.html?account=" + accounts[i].account_nbr + "'>"
+							+ "<a class='acclink' href='transactions.html?account=" + accounts[i].account_nbr + "'>"
 							+ "<div class='name'>" + accounts[i].name + "</div>"
 							+ "<div class='number'>" + accounts[i].account_nbr + "</div>"
-							+ "<div class='balance'>" + fixNumber(accounts[i].balance) + " kr</div>"
+							+ "<div class='balance' style='text-align: right;'>" + fixNumber(accounts[i].balance) + " kr</div>"
 							+ "</a>"
 							+ "</li>"
 				);
