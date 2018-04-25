@@ -65,19 +65,22 @@ var transactions = (function(){
 	var setAccountsUI = function(){
 		for(var i = 0; i < accounts.length; i++){
 			$(".accounts").append("<li class='account'>"
-									+ "<a href='#' data-id='" 
-									+ accounts[i].account_nbr 
+									+ "<a href='#' data-id='"
+									+ accounts[i].account_nbr
 									+ "'>"
-									+ accounts[i].name 
+									+ accounts[i].name
 									+ " "
-									+ accounts[i].account_nbr 
+									+ accounts[i].account_nbr
 									+ "</a>"
-									+ "</li>");	
+									+ "</li>");
 		}
 	};
 
 	//selects an account, empties transactions list and fetches first page of transactions for selected account
 	var selectAccount = function(accNbr){
+		var url = location.href.substring(0, location.href.lastIndexOf('/')) + '/transactions.html';
+		url += '?account=' + accNbr;
+		history.pushState(null, 'aaa', url);
 		selectedAccount = getAccountById(accNbr);
 		transactions = [];
 		$(".accounts .account a").removeClass("selected");
@@ -138,3 +141,4 @@ var transactions = (function(){
 		init : _init
 	}
 })();
+
