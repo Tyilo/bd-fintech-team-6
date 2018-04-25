@@ -1,3 +1,25 @@
+function pad(s, n) {
+	s = '' + s;
+	while (s.length < n) {
+		s = '0' + s;
+	}
+	return s;
+}
+
+function formatDate(dt) {
+	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth() + 1, 2) + '.' + pad(dt.getFullYear(), 4);
+}
+
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return parts.join(".");
+}
+
+function fixNumber(n) {
+	return numberWithCommas(n.toFixed(2).replace(/\./g, ','));
+}
+
 var service = (function(){
 	"use strict";
 
@@ -9,7 +31,7 @@ var service = (function(){
 	var CATEGORIES_SERVICE_URL = SERVER_URL + ":" + SERVER_PORT + "/categories";
 	var BANK_ROBOT_URL = SERVER_URL + ":" + SERVER_PORT + "/bankbot";
 	var BANK_SECRET_URL = SERVER_URL + ":" + SERVER_PORT + "/secret";
-	
+
 
 	//fetches all accounts
 	var fetchAccounts = function(onSuccess){
@@ -23,8 +45,8 @@ var service = (function(){
 
 	//fetches a page of transactions for a given account
 	//accNbr format: "7454-3742221"
-	var fetchTransactionsByPage = function(accNbr, page, onSuccess){
-		var requestURL = TRANSACTIONS_SERVICE_URL + "?arg1=fetchByPage&arg2=" + accNbr + "&arg3=" + page;
+	var fetchTransactionsByPage = function(accNbr, page, ordering, onSuccess){
+		var requestURL = TRANSACTIONS_SERVICE_URL + "?arg1=fetchByPage&arg2=" + accNbr + "&arg3=" + page + "&arg4=" + ordering;
 		var jqxhr = $.getJSON(requestURL, function(response) {
 			onSuccess(response); //response.transactions to get list of transactions
 		})
@@ -35,15 +57,15 @@ var service = (function(){
 
 	//fetches transactions in date interval for a given account
 	//accNbr format: "7454-3742221"
-	//date format: "2016-03-21" 
+	//date format: "2016-03-21"
 	var fetchTransactionsByDate = function(accNbr, fromDate, toDate, onSuccess){
-		var requestURL = TRANSACTIONS_SERVICE_URL + "?arg1=fetchByDate&arg2=" + accNbr + "&arg3=" + fromDate + "&arg4=" + toDate;	
+		var requestURL = TRANSACTIONS_SERVICE_URL + "?arg1=fetchByDate&arg2=" + accNbr + "&arg3=" + fromDate + "&arg4=" + toDate;
 		var jqxhr = $.getJSON(requestURL, function(response) {
 			onSuccess(response); //response.transactions to get list of transactions
 		})
 		.fail(function(d, status, error){
 			console.log("fetching transactions by date failed, status: " + status + ", error: " + error);
-		});	
+		});
 	};
 
 	//fetches list of all categories with sub-categories

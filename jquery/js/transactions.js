@@ -2,23 +2,6 @@ $(document).ready(function() {
     transactions.init();
 });
 
-function pad(s, n) {
-	s = '' + s;
-	while (s.length < n) {
-		s = '0' + s;
-	}
-	return s;
-}
-
-function formatDate(dt) {
-	console.log(dt);
-	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth() + 1, 2) + '.' + pad(dt.getFullYear(), 4);
-}
-
-function fixNumber(n) {
-	return (n + '').replace(/\./g, ',');
-}
-
 var transactions = (function(){
 	"use strict";
 
@@ -26,6 +9,7 @@ var transactions = (function(){
 	var accounts = [];
 	var transactions = [];
 	var currentPage = 1;
+	var ordering = 'trx_time';
 
 	var _init = function(){
 		updateAccounts();
@@ -63,7 +47,7 @@ var transactions = (function(){
 
 	//fetch transactions and add to list in UI
 	var updateTransactions = function(accNbr, page){
-		service.fetchTransactionsByPage(accNbr, page, function(response){
+		service.fetchTransactionsByPage(accNbr, page, ordering, function(response){
 			var newTransactions = response.transactions;
 			transactions = transactions.concat(newTransactions);
 			setTransactionsUI();
@@ -111,20 +95,27 @@ var transactions = (function(){
 	//appends the fetched transactions in UI
 	var setTransactionsUI = function(){
 		$(".transactions").empty();
-    //dope style
-    $(".transactions").append("<li class='transaction'>"
-            + "<div class='date'><b>date</b></div>"
-            + "<div class='category'><b>category</b></div>"
-            + "<div class='text'><b>description</b></div>"
-            + "<div class='amount'><b>amount</b></div>"
-            + "</li>");
+		//dope style
+		$(".transactions").append("<li class='transaction header'>"
+				+ "<div class='trx_time'><b>Dato</b></div>"
+				+ "<div class='trx_category'><b>Kategori</b></div>"
+				+ "<div class='trx_description'><b>Beskrivelse</b></div>"
+				+ "<div class='trx_ammount'><b>Beløb</b></div>"
+				+ "</li>");
+	  	$(".transactions li.header > div").each(function(el) {
+		  $(this).on('click', function() {
+			  ordering = $(this).attr('class');
+			  selectAccount(selectedAccount.account_nbr);
+		  });
+		});
+
 		for(var i = 0; i < transactions.length; i++){
 			var d = formatDate(new Date(transactions[i].trx_time));
 			$(".transactions").append("<li class='transaction'>"
 							+ "<div class='date'>" + d + "</div>"
 							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trx_category + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
-							+ "<div class='amount'>" + transactions[i].trx_ammount + "</div>"
+							+ "<div class='amount' style='text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</div>"
 							+ "</li>");
 		}
 	};
