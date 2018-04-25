@@ -55,7 +55,7 @@ var bot = (function(){
         let limit = 0.7;
         let intent = null;
         response.forEach(element => {
-            if(element.value < limit){
+            if(element.value >= limit){
                 limit = element.value;
                 intent = element.label;
             }
@@ -63,9 +63,9 @@ var bot = (function(){
         let intentMsg;
         console.log(response);
         switch(intent){
-            case "Budgetkonto":
+            case "Opsparingskonto":
                 annoyanceCounter = 0;
-                intentMsg = "Budgetkonto";
+                intentMsg = "Opsparingskonto";
                 break;
             case "Overblik":
                 annoyanceCounter = 0;
