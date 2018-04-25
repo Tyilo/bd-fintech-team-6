@@ -58,6 +58,20 @@ var bot = (function(){
     
     //handle server response
     var handleBotResponse = function(response, account, callback) {
+        function showBalance(account) {
+            service.fetchAccounts(function(r) {
+                var accounts = r.accounts;
+                var response = 'Det giver jeg dig lige. Saldo på kontoer:';
+                for (var acc of accounts) {
+                    if (acc.name.toLowerCase().startsWith(account.toLowerCase())) {
+                        response += '<br>';
+                        response += acc.name.trim() + ': ' + fixNumber(acc.balance);
+                    }
+                }
+                callback(response);
+            });
+        }
+
         let limit = 0.7;
         let intent = null;
         response.forEach(element => {
@@ -80,29 +94,16 @@ var bot = (function(){
         }
         switch(intent){
             case "Opsparingskonto":
-                callback("Opsparingskonto");
-                break;
             case "Budgetkonto":
-                callback("Budgetkonto");
-                break;
-            case "Overblik":
-                callback("Overblik");
+            case "Madkonto":
+                showBalance(intent);
                 break;
             case "Hilsen":
                 callback(welcomeMessage());
                 break;
+            case "Overblik":
             case "Saldo":
-                service.fetchAccounts(function(r) {
-                    var accounts = r.accounts;
-                    var response = 'Saldo på kontoer:';
-                    for (var acc of accounts) {
-                        if (acc.name.toLowerCase().startsWith(account.toLowerCase())) {
-                            response += '<br>';
-                            response += acc.name.trim() + ': ' + fixNumber(acc.balance);
-                        }
-                    }
-                    callback(response);
-                });
+                showBalance(account);
                 break;
             default:
                 callback("Den besked forstod jeg desværre ikke.");
