@@ -55,6 +55,10 @@ var transactions = (function(){
 		$(".get-more").on("click", function(){
 			getMoreTransactions();
 		});
+		$(".get-to-top").on("click", function(){
+   			document.body.scrollTo(0,0);
+			console.log("HERERE!!!")
+		});
 	};
 
 	//fetch transactions and add to list in UI
