@@ -37,10 +37,13 @@ var bot = (function(){
         $('#chat-window').scrollTop(10000000);
         $("#user-msg").val("");
         insertChatMessage("self", clientmsg);
-        service.fetchBotIntent(clientmsg, function(response){
-            let handledResponse = handleBotResponse(response);
-            insertChatMessage("bot", handledResponse);
-            $('#chat-window').scrollTop(10000000);
+        var words = clientmsg.split(' ');
+        var account = words.length === 1? '': words[words.length - 1];
+        service.fetchBotIntent(clientmsg, function(response) {
+            let handledResponse = handleBotResponse(response, account, function(handledResponse) {
+                insertChatMessage("bot", handledResponse);
+                $('#chat-window').scrollTop(10000000);
+            });
         });
         return false;
     };
@@ -54,7 +57,7 @@ var bot = (function(){
     };
     
     //handle server response
-    var handleBotResponse = function(response){
+    var handleBotResponse = function(response, account, callback) {
         let limit = 0.7;
         let intent = null;
         response.forEach(element => {
@@ -77,19 +80,34 @@ var bot = (function(){
         }
         switch(intent){
             case "Opsparingskonto":
-                intentMsg = "Opsparingskonto";
+                callback("Opsparingskonto");
+                break;
+            case "Budgetkonto":
+                callback("Budgetkonto");
                 break;
             case "Overblik":
-                intentMsg = "Overblik";
+                callback("Overblik");
                 break;
             case "Hilsen":
-                intentMsg = welcomeMessage();
+                callback(welcomeMessage());
+                break;
+            case "Saldo":
+                service.fetchAccounts(function(r) {
+                    var accounts = r.accounts;
+                    var response = 'Saldo på kontoer:';
+                    for (var acc of accounts) {
+                        if (acc.name.toLowerCase().startsWith(account.toLowerCase())) {
+                            response += '<br>';
+                            response += acc.name + ': ' + acc.balance;
+                        }
+                    }
+                    callback(response);
+                });
                 break;
             default:
-                intentMsg = "Den besked forstod jeg desværre ikke.";
+                callback("Den besked forstod jeg desværre ikke.");
                 break;
         }
-        return intentMsg;
     };
     
     //return random greeting
