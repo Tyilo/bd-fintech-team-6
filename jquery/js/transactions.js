@@ -115,7 +115,7 @@ var transactions = (function(){
 							+ "<div class='date'>" + d + "</div>"
 							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trx_category + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
-							+ "<div class='amount' style='text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</div>"
+							+ "<div class='amount' style='text-align: right;'>" + colorAmount(fixNumber(transactions[i].trx_ammount)) + "</div>"
 							+ "</li>");
 		}
 	};
