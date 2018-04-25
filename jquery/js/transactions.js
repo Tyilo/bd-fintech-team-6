@@ -14,6 +14,10 @@ function formatDate(dt) {
 	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth(), 2) + '.' + pad(dt.getFullYear(), 4);
 }
 
+function fixNumber(n) {
+	return (n + '').replace(/\./g, ',');
+}
+
 var transactions = (function(){
 	"use strict";
 
@@ -96,7 +100,7 @@ var transactions = (function(){
 
 	//sets balance (saldo) in UI
 	var setBalanceUI = function(balance){
-		$(".balance").html(balance + " kr");
+		$(".balance").html(fixNumber(balance) + " kr");
 	};
 
 	//appends the fetched transactions in UI

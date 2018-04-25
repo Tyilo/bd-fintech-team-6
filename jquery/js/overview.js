@@ -2,6 +2,22 @@ $(document).ready(function() {
     overview.init();
 });
 
+function pad(s, n) {
+	s = '' + s;
+	while (s.length < n) {
+		s = '0' + s;
+	}
+	return s;
+}
+
+function formatDate(dt) {
+	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth(), 2) + '.' + pad(dt.getFullYear(), 4);
+}
+
+function fixNumber(n) {
+	return (n + '').replace(/\./g, ',');
+}
+
 var overview = (function(){
 	"use strict";
 
@@ -46,9 +62,10 @@ var overview = (function(){
 		service.fetchTransactionsByDate(accounts[0].account_nbr, year + "-01-01", year + "-12-31", function(response){
 			transactions = findTransactionsWithMinAmount(response.transactions, $("#amount-stats-min").val());
 			$(".amount-stats-transactions").empty();
-			$(".amount-stats-transactions").append("<ul class='transactions'></ul>");
+			$(".amount-stats-transactions").append("<table class='transactions'></table>");
+			$(".transactions").append('<tr><th>Dato</th><th>Beskrivelse</th><th>Beløb</th></tr>');
 			for(var i = 0; i < transactions.length; i++){
-				$(".transactions").append("<li>" + transactions[i].trx_time + " " + transactions[i].trx_description + " " + transactions[i].trx_ammount + "</li>")
+				$(".transactions").append("<tr><td>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td>" + transactions[i].trx_description + "</td><td>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
 			}
 		});
 	};
