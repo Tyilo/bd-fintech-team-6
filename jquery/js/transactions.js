@@ -81,6 +81,7 @@ var transactions = (function(){
 		var url = location.href.substring(0, location.href.lastIndexOf('/')) + '/transactions.html';
 		url += '?account=' + accNbr;
 		history.pushState(null, 'aaa', url);
+		currentPage = 1;
 		selectedAccount = getAccountById(accNbr);
 		transactions = [];
 		$(".accounts .account a").removeClass("selected");
