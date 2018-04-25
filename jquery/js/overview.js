@@ -84,7 +84,6 @@ var overview = (function(){
 	        },
 	        yAxis: {
 				title: ''
-        reversed: 'false'
 	        },
 	        tooltip: {
 	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
