@@ -32,12 +32,14 @@ var bot = (function(){
         let clientmsg = $("#user-msg").val();
         if(clientmsg == '') {
             return false;
-        } 
+        }
+        $('#chat-window').scrollTop(10000000);
         $("#user-msg").val("");
         insertChatMessage("self", clientmsg);
         service.fetchBotIntent(clientmsg, function(response){
             let handledResponse = handleBotResponse(response);
             insertChatMessage("bot", handledResponse);
+            $('#chat-window').scrollTop(10000000);
         });
         return false;
     };
