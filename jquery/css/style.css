@@ -161,7 +161,7 @@ header .triangle3 {
 }
 
 #transactions .transactions {
-	width: 105%;
+	width: 100%;
 	float: left;
 }
 
@@ -274,5 +274,9 @@ header .triangle3 {
 
 #chatbot .image.bot {
 	content:url(../gfx/botimg.png);
+}
+
+#chatbot .image.self {
+	content:url(../gfx/asger.jpg);
 }
 /*END: chatbot*/

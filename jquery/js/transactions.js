@@ -2,23 +2,6 @@ $(document).ready(function() {
     transactions.init();
 });
 
-function pad(s, n) {
-	s = '' + s;
-	while (s.length < n) {
-		s = '0' + s;
-	}
-	return s;
-}
-
-function formatDate(dt) {
-	console.log(dt);
-	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth() + 1, 2) + '.' + pad(dt.getFullYear(), 4);
-}
-
-function fixNumber(n) {
-	return (n + '').replace(/\./g, ',');
-}
-
 var transactions = (function(){
 	"use strict";
 
@@ -128,7 +111,7 @@ var transactions = (function(){
 							+ "<div class='date'>" + d + "</div>"
 							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trx_category + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
-							+ "<div class='amount'>" + transactions[i].trx_ammount + "</div>"
+							+ "<div class='amount' style='text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</div>"
 							+ "</li>");
 		}
 	};
