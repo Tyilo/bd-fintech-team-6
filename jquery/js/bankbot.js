@@ -92,6 +92,13 @@ var bot = (function(){
             annoyanceCounter = 0;
             annoyanceMessage = intent;
         }
+        if (intent && intent.startsWith('link')) {
+            var parts = intent.split(':');
+            var link = parts[1];
+            var text = parts[2];
+            callback('Her et link der måske kan hjælpe: <a style="color: white;" href="' + link + '">' + text + '</a>')
+            return;
+        }
         switch(intent){
             case "Opsparingskonto":
             case "Budgetkonto":
@@ -110,7 +117,7 @@ var bot = (function(){
                 break;
         }
     };
-    
+
     //return random greeting
     var welcomeMessage = function(){
         let responseList = [];

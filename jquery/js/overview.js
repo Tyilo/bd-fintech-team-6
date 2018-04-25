@@ -65,6 +65,7 @@ var overview = (function(){
     $(".amount-stats-transactions").empty();
     $(".amount-stats-transactions").append("<table class='transactions'></table>");
     $(".transactions").append('<tr><th>Dato</th><th>Beskrivelse</th><th>Beløb</th></tr>');
+<<<<<<< HEAD
     var account = $("#items").val();
     if(account == 0){
       for(var i = 0; i < accounts.length; i++){
@@ -82,6 +83,15 @@ var overview = (function(){
           $(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px; text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
         }
       });
+=======
+    for(var i = 0; i < accounts.length; i++){
+		service.fetchTransactionsByDate(accounts[i].account_nbr, year + "-01-01", year + "-12-31", function(response){
+			transactions = findTransactionsWithMinAmount(response.transactions, $("#amount-stats-min").val(), $("#amount-stats-max").val());
+			for(var i = 0; i < transactions.length; i++){
+				$(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px; text-align: right;'>" + colorAmount(fixNumber(transactions[i].trx_ammount)) + "</td></tr>")
+			}
+		});
+>>>>>>> b435560760de3a5fc90dba64481c84ef9812d5a0
     }
 	};
 

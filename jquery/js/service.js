@@ -21,8 +21,8 @@ function fixNumber(n) {
 }
 
 function colorAmount(s) {
-	var color = s[0] === '-'? 'red': 'green';
-	return '<span color="' + color + '">' + s + '</span>';
+	var color = s[0] === '-'? 'red; font-weight: bold;': 'green';
+	return '<span style="color: ' + color + ';">' + s + '</span>';
 }
 
 var service = (function(){
@@ -73,6 +73,15 @@ var service = (function(){
 		});
 	};
 
+	var fetchTransactionsByCategory = function(cat, onSuccess){
+		var requestURL = TRANSACTIONS_SERVICE_URL + "?arg1=fetchByCat&arg2=a&arg3=" + cat;
+		var jqxhr = $.getJSON(requestURL, function(response) {
+			onSuccess(response); //response.transactions to get list of transactions
+		})
+		.fail(function(d, status, error){
+			console.log("fetching transactions by category failed, status: " + status + ", error: " + error);
+		});
+	};
 	//fetches list of all categories with sub-categories
 	var fetchCategories = function(onSuccess){
 		var jqxhr = $.getJSON(CATEGORIES_SERVICE_URL, function(response) {
@@ -108,6 +117,7 @@ var service = (function(){
 		fetchAccounts : fetchAccounts,
 		fetchTransactionsByPage : fetchTransactionsByPage,
 		fetchTransactionsByDate : fetchTransactionsByDate,
+		fetchTransactionsByCategory: fetchTransactionsByCategory,
 		fetchCategories : fetchCategories,
 		fetchBotIntent : fetchBotIntent,
 		secret : secret

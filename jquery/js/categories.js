@@ -25,35 +25,19 @@ var transactions = (function(){
 			} else{
 				selectedAccount = accounts[0];
 			}
-			setAccountsUI();
-			selectAccount(selectedAccount.account_nbr);
 			bindListeners();
+
+			service.fetchCategories(function(cats) {
+			  for(var i = 0; i < cats.length; i++) {
+				var tit = cats[i].title;
+				$('#cats').append('<option value="' + tit + '">' + tit + '</option>');
+			  }
+			  $('#cats').on('change', function() {
+				  updateTransactions();
+			  });
+			  updateTransactions();
+			});
 		});
-
-		function isScrolledIntoView(elem)
-		{
-			var docViewTop = $(window).scrollTop();
-			var docViewBottom = docViewTop + $(window).height();
-
-			var elemTop = $(elem).offset().top;
-			var elemBottom = elemTop + $(elem).height();
-
-			return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
-		}
-
-		var lastScroll = -1;
-		$(document.body).scroll(function(e) {
-			if (isScrolledIntoView($('.get-more'))) {
-				if (new Date() - lastScroll >= 500) {
-					getMoreTransactions(function() {
-						lastScroll = +new Date();
-					});
-				}
-			}
-		});
-
-		document.body.onscroll = function(ev) {
-		};
 	};
 
 	//binds click listeners for buttons and stuff
@@ -64,36 +48,17 @@ var transactions = (function(){
 		$(".get-more").on("click", function(){
 			getMoreTransactions();
 		});
-		$(".get-to-top").on("click", function(){
-   			document.body.scrollTo(0,0);
-			console.log("HERERE!!!")
-		});
 	};
 
 	//fetch transactions and add to list in UI
-	var updateTransactions = function(accNbr, page, callback){
-		service.fetchTransactionsByPage(accNbr, page, ordering, function(response){
+	var updateTransactions = function(){
+		var category = $('#cats').val();
+		transactions = [];
+	  service.fetchTransactionsByCategory(category, function(response){
 			var newTransactions = response.transactions;
 			transactions = transactions.concat(newTransactions);
 			setTransactionsUI();
-			if (callback)
-				callback();
 		});
-	};
-
-	//appends the fetched accounts in UI
-	var setAccountsUI = function(){
-		for(var i = 0; i < accounts.length; i++){
-			$(".accounts").append("<li class='account'>"
-									+ "<a href='#' data-id='"
-									+ accounts[i].account_nbr
-									+ "'>"
-									+ accounts[i].name
-									+ " "
-									+ accounts[i].account_nbr
-									+ "</a>"
-									+ "</li>");
-		}
 	};
 
 	//selects an account, empties transactions list and fetches first page of transactions for selected account
@@ -142,15 +107,15 @@ var transactions = (function(){
 							+ "<div class='date'>" + d + "</div>"
 							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trx_category + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
-							+ "<div class='amount' style='text-align: right;'>" + colorAmount(fixNumber(transactions[i].trx_ammount)) + "</div>"
+							+ "<div class='amount' style='text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</div>"
 							+ "</li>");
 		}
 	};
 
 	//fetches next page of transactions
-	var getMoreTransactions = function(callback){
+	var getMoreTransactions = function(){
 		currentPage++;
-		updateTransactions(selectedAccount.account_nbr, currentPage, callback);
+		updateTransactions(selectedAccount.account_nbr, currentPage);
 	};
 
 	//returns an account object with given account number
