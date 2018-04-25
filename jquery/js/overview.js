@@ -59,15 +59,17 @@ var overview = (function(){
 	//fetch transactions and find ones with min amount
 	var refreshAmountStats = function(){
 		var year = $("#amount-stats-year").val();
-		service.fetchTransactionsByDate(accounts[0].account_nbr, year + "-01-01", year + "-12-31", function(response){
+    $(".amount-stats-transactions").empty();
+    $(".amount-stats-transactions").append("<table class='transactions'></table>");
+    $(".transactions").append('<tr><th>Dato</th><th>Beskrivelse</th><th>Beløb</th></tr>');
+    for(var i = 0; i < accounts.length; i++){
+		service.fetchTransactionsByDate(accounts[i].account_nbr, year + "-01-01", year + "-12-31", function(response){
 			transactions = findTransactionsWithMinAmount(response.transactions, $("#amount-stats-min").val());
-			$(".amount-stats-transactions").empty();
-			$(".amount-stats-transactions").append("<table class='transactions'></table>");
-			$(".transactions").append('<tr><th>Dato</th><th>Beskrivelse</th><th>Beløb</th></tr>');
 			for(var i = 0; i < transactions.length; i++){
 				$(".transactions").append("<tr><td>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td>" + transactions[i].trx_description + "</td><td>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
 			}
 		});
+    }
 	};
 
 	//build some account data arrays
