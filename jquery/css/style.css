@@ -270,4 +270,8 @@ header .triangle3 {
 #chatbot .image.bot {
 	content:url(../gfx/botimg.png);
 }
+
+#chatbot .image.self {
+	content:url(../gfx/asger.jpg);
+}
 /*END: chatbot*/
