@@ -19,6 +19,12 @@ var bot = (function(){
             sendMessage();
             return false;
         });
+        $('#user-msg').on('keyup', function(e) {
+            if (e.keyCode == 13) {
+                sendMessage();
+                return false;
+            }
+        });
     };
 
     //send message to server and clear input field
