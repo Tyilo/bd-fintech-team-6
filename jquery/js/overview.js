@@ -66,7 +66,7 @@ var overview = (function(){
 		service.fetchTransactionsByDate(accounts[i].account_nbr, year + "-01-01", year + "-12-31", function(response){
 			transactions = findTransactionsWithMinAmount(response.transactions, $("#amount-stats-min").val(), $("#amount-stats-max").val());
 			for(var i = 0; i < transactions.length; i++){
-				$(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px; text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
+				$(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px; text-align: right;'>" + colorAmount(fixNumber(transactions[i].trx_ammount)) + "</td></tr>")
 			}
 		});
     }
