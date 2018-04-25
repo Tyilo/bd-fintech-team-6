@@ -20,6 +20,11 @@ function fixNumber(n) {
 	return numberWithCommas(n.toFixed(2).replace(/\./g, ','));
 }
 
+function colorAmount(s) {
+	var color = s[0] === '-'? 'red; font-weight: bold;': 'green';
+	return '<span style="color: ' + color + ';">' + s + '</span>';
+}
+
 var service = (function(){
 	"use strict";
 

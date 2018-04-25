@@ -15,13 +15,29 @@ var overview = (function(){
 		bindListeners();
 	};
 
-	var findTransactionsWithMinAmount = function(transactions, min){
+	var findTransactionsWithMinAmount = function(transactions, min, max){
 		var newTransactions = [];
-		for(var i = 0; i < transactions.length; i++){
-			if(transactions[i].trx_ammount >= min){
-				newTransactions.push(transactions[i]);
-			}
-		}
+    if(max == ""){
+  		for(var i = 0; i < transactions.length; i++){
+  			if(transactions[i].trx_ammount >= min){
+  				newTransactions.push(transactions[i]);
+  			}
+  		}
+    }
+    else if(min == ""){
+  		for(var i = 0; i < transactions.length; i++){
+  			if(transactions[i].trx_ammount <= max){
+  				newTransactions.push(transactions[i]);
+  			}
+  		}
+    }
+    else {
+      for(var i = 0; i < transactions.length; i++){
+  			if(transactions[i].trx_ammount <= max && transactions[i].trx_ammount >= min){
+  				newTransactions.push(transactions[i]);
+  			}
+  		}
+    }
 		return newTransactions;
 	};
 
@@ -48,9 +64,9 @@ var overview = (function(){
     $(".transactions").append('<tr><th>Dato</th><th>Beskrivelse</th><th>Beløb</th></tr>');
     for(var i = 0; i < accounts.length; i++){
 		service.fetchTransactionsByDate(accounts[i].account_nbr, year + "-01-01", year + "-12-31", function(response){
-			transactions = findTransactionsWithMinAmount(response.transactions, $("#amount-stats-min").val());
+			transactions = findTransactionsWithMinAmount(response.transactions, $("#amount-stats-min").val(), $("#amount-stats-max").val());
 			for(var i = 0; i < transactions.length; i++){
-				$(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px; text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</td></tr>")
+				$(".transactions").append("<tr><td style='padding-right: 10px; padding-left: 10px;'>" + formatDate(new Date(transactions[i].trx_time)) + "</td><td style='padding-right: 10px; padding-left: 10px;'>" + transactions[i].trx_description + "</td><td style='padding-right: 10px; padding-left: 10px; text-align: right;'>" + colorAmount(fixNumber(transactions[i].trx_ammount)) + "</td></tr>")
 			}
 		});
     }
