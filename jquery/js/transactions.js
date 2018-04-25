@@ -95,7 +95,7 @@ var transactions = (function(){
             + "<div class='date'><b>date</b></div>"
             + "<div class='category'><b>category</b></div>"
             + "<div class='text'><b>description</b></div>"
-            + "<div class='amount'><b>amount</b></div>"
+            + "<div class='amount' style='text-align: right;'><b>amount</b></div>"
             + "</li>");
 		for(var i = 0; i < transactions.length; i++){
 			var d = formatDate(new Date(transactions[i].trx_time));
@@ -103,7 +103,7 @@ var transactions = (function(){
 							+ "<div class='date'>" + d + "</div>"
 							+ "<div class='category'>" + transactions[i].trx_subcategory + " - " + transactions[i].trx_category + "</div>"
 							+ "<div class='text'>" + transactions[i].trx_description + "</div>"
-							+ "<div class='amount'>" + transactions[i].trx_ammount + "</div>"
+							+ "<div class='amount' style='text-align: right;'>" + fixNumber(transactions[i].trx_ammount) + "</div>"
 							+ "</li>");
 		}
 	};

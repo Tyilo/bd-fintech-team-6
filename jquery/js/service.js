@@ -10,8 +10,14 @@ function formatDate(dt) {
 	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth() + 1, 2) + '.' + pad(dt.getFullYear(), 4);
 }
 
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return parts.join(".");
+}
+
 function fixNumber(n) {
-	return (n + '').replace(/\./g, ',');
+	return numberWithCommas(n.toFixed(2).replace(/\./g, ','));
 }
 
 var service = (function(){

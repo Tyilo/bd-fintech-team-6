@@ -98,7 +98,7 @@ var bot = (function(){
                     for (var acc of accounts) {
                         if (acc.name.toLowerCase().startsWith(account.toLowerCase())) {
                             response += '<br>';
-                            response += acc.name + ': ' + acc.balance;
+                            response += acc.name.trim() + ': ' + fixNumber(acc.balance);
                         }
                     }
                     callback(response);
