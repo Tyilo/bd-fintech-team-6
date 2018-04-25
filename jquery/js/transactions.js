@@ -2,23 +2,6 @@ $(document).ready(function() {
     transactions.init();
 });
 
-function pad(s, n) {
-	s = '' + s;
-	while (s.length < n) {
-		s = '0' + s;
-	}
-	return s;
-}
-
-function formatDate(dt) {
-	console.log(dt);
-	return pad(dt.getDate(), 2) + '.' + pad(dt.getMonth() + 1, 2) + '.' + pad(dt.getFullYear(), 4);
-}
-
-function fixNumber(n) {
-	return (n + '').replace(/\./g, ',');
-}
-
 var transactions = (function(){
 	"use strict";
 
