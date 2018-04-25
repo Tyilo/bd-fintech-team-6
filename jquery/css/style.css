@@ -60,6 +60,11 @@ header a {
 	color: white;
 }
 
+a, .acclink > div {
+  text-decoration: underline !important;
+  color: black;
+}
+
 header .triangle1 {
 	z-index: 2;
 	height: 0;
